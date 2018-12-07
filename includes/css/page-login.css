@@ -1,0 +1,95 @@
+.form-signin .form-control {
+	position: relative;
+	font-size: 16px;
+	height: auto;
+	padding: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+	
+.form-signin .form-control:focus {
+z-index: 2;
+}
+
+		
+
+
+body.login{
+	min-width:inherit;
+ background-color: #eee;
+  display: table;
+   width: 100%;
+}
+
+form.form-signin{
+	border:1px solid #efefef;
+	background:white;
+	max-width: 450px;
+	padding: 30px;
+	margin: 0 auto;
+	border-radius:5px;
+	margin-top:60px;
+}
+
+form.form-signin .form-signin-heading{
+	margin-top:30px;
+	margin-bottom:30px;
+	font-weight:bold;
+
+}
+
+form.form-signin img.school-logo{
+	display:block;
+	margin:0 auto;
+}
+
+form.form-signin h2.form-signin-heading{
+	text-align:center;	
+}
+
+form.form-signin .material-icons{
+	vertical-align: middle;
+	color:dimgrey;
+	position:absolute;
+	padding:10px;
+	z-index:10;
+}
+
+form.form-signin .input-wrapper{
+	border:1px solid #ccc;
+	margin-bottom:15px;
+	border-radius:5px;
+	position:relative;
+}
+
+form.form-signin .input-wrapper input{
+	border:none;
+	padding-left:50px;
+}
+
+form.form-signin  .input-wrapper:last-of-type{
+	margin-bottom:0px;
+}
+
+form.form-signin .alert-warning{
+	color:red;
+	background-color:white;
+	margin-top:15px;
+}
+
+form.form-signin button.sign-in{
+	margin-top:30px;
+}
+
+#google_sign_in {
+	margin: 10px auto;
+	background-size: 388px;
+    border: none;
+    width: 388px;
+    height: 88px;
+    background-image: url(http://cymca-dev.kanhan.com/atteadmin/sites/all/modules/gauth/gauth_login/sign-in-with-google.png);
+}
+
+
+

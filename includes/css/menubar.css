@@ -1,0 +1,93 @@
+.menu-datetime *{
+	vertical-align:middle !important;
+}
+
+.menu .material-icons{
+	vertical-align:middle !important;
+	margin-right: .5rem;
+}
+
+
+.menu{
+	height:100%;
+	background-color:#42A5F5;
+	/* position:absolute;  */
+	min-height:100vh;
+	border-right:1px solid #8a8a8a;
+	box-shadow: 5px 0 5px -5px #333;
+}
+
+.menu .col-inner{
+	margin-left:-15px;
+	margin-right:-15px;
+	font-size:1.4em;
+	
+}
+
+.logo-wrapper{
+	background-color:#fff;
+	padding: 0.5em;
+}
+
+.login-info-wrapper>div {
+	padding:.5rem 0;
+}
+
+.login-info-wrapper>div>* {
+	display:inline-block;
+}
+
+
+.school-full-logo{
+	display:block;
+	margin:0 auto;
+}
+.login-info-wrapper{
+	background-color: #01579B;
+	color:#fff;
+	padding:1em 0.5em;
+	
+	
+}
+
+.login-user{
+	display:inline-block;
+	margin-right: 0.5em;
+}
+
+.login-info-wrapper .logout-btn {
+	display:inline-block;
+}
+
+.login-info-wrapper .logout-btn  button{
+    font-size: 0.7em;
+    padding: 0.5em 0.5em;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+	display:inline-block;
+	color:#444;
+}
+
+.login-info-wrapper .logout-btn  button:hover{
+	background-color:#efefef;
+	text-decoration:none;
+}
+
+.menu .login-user::before{
+	font-family: "Material Icons";
+    content: "\E7FD";
+	vertical-align:top;
+    margin-right: .25em;
+}
+
+@media (max-width: 1200px){
+	.menu{
+		position: relative;
+		min-height: initial;
+		height: initial;
+	}
+	.menu-datetime{
+		display:none;
+	}
+}

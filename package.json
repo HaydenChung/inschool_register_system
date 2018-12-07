@@ -1,0 +1,38 @@
+{
+  "name": "inschool_register_system",
+  "version": "1.0.0",
+  "description": "Mointer for inschool user",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "dev-build": "webpack --mode development",
+    "start-dev": "webpack-dev-server --content-base ./ --inline --mode development --open"
+  },
+  "author": "Hayden,vega",
+  "license": "ISC",
+  "dependencies": {
+    "history": "^4.7.2",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^3.6.1",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "compression-webpack-plugin": "^2.0.0",
+    "mdi-material-ui": "^5.7.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
+}
