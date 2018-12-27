@@ -1,23 +1,13 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-
-const HiddenInput = React.forwardRef((props, ref)=> (
-    <div>
-        <input hidden={true} disabled={props.disabled} onKeyPress={props.onKeyPress} ref={ref} type='text'  autofocus="true" />
-    </div>
-
-));
-
-export default HiddenInput;
 
 class HiddenInput extends React.Component {
     constructor(props) {
         super(props);
         
         this.htmlBody = document.querySelector('body');
-        this.inputValue = null;
+        this.inputValue = '';
 
-        this.addInputListener = this.addInputListener.bind(this);
+        this.hiddenInputListener = this.hiddenInputListener.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +19,9 @@ class HiddenInput extends React.Component {
     }
 
     hiddenInputListener(ev) {
+
+        if(this.props.disabled == true) return;
+
         if(ev.key != 'Enter' || ev.keyCode != 13) {
             this.inputValue += ev.key;
             return;
@@ -36,10 +29,16 @@ class HiddenInput extends React.Component {
 
         ev.target.value = this.inputValue;
         this.props.onKeyPress(ev);
+        setTimeout(()=> this.inputValue = '', 0)
+    }
+
+    render() {
+        return (<div></div>);
     }
 
 }
 
+export default HiddenInput;
 
 
 HiddenInput.defaultProps = {

@@ -21,38 +21,12 @@ class RegisterPage extends React.Component {
         this.freePassTimer = null;
         this.resetPageTimer = null;
 
-        this.hiddenInputRef = React.createRef();
-        this.wrapperRef = React.createRef();
         this.inputOnKeyPressHandler = this.inputOnKeyPressHandler.bind(this);
         this.toggleFreePassPeriod = this.toggleFreePassPeriod.bind(this);
         this.onRegisterFailHandler = this.onRegisterFailHandler.bind(this);
         this.checkWhiteList = this.checkWhiteList.bind(this);
         this.updateUserInschool = this.updateUserInschool.bind(this);
         this.setResetPage = this.setResetPage.bind(this);
-        this.onClickFocusInput = this.onClickFocusInput.bind(this);
-    }
-
-    onClickFocusInput() {
-        this.hiddenInputRef.current.focus();
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.state.focusTimer);
-        this.wrapperRef.current.removeEventListener('click', this.onClickFocusInput);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        this.hiddenInputRef.current.focus();
-    }
-
-    componentDidMount() {
-        this.state.focusTimer = setInterval(
-            () => this.hiddenInputRef.current.focus(),
-            200
-        );
-        // this.hiddenInputRef.current.focus();
-        this.wrapperRef.current.addEventListener('click', this.onClickFocusInput);
-
     }
 
     toggleFreePassPeriod({expire= 30, state = true, approver}) {
@@ -287,10 +261,10 @@ class RegisterPage extends React.Component {
         const student = this.state.studentData;
 
         return (
-            <div ref={this.wrapperRef}>
+            <div>
                 <Template active={this.state.active}>
                     <div style={{display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                        <HiddenInput disabled={!this.state.active} onKeyPress={this.inputOnKeyPressHandler} ref={this.hiddenInputRef}/>
+                        <HiddenInput disabled={!this.state.active} onKeyPress={this.inputOnKeyPressHandler} />
                         <LargeUserCard freePassPeriod={this.state.freePassPeriod} chi_name={student.chi_name} eng_name={student.eng_name} class={student.class} class_number={student.class_number} image={student.uri} student_no={student.name} isVerify={student.isVerify} />
                     </div>
                 </Template>

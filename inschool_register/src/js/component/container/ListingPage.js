@@ -22,40 +22,26 @@ class ListingPage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.hiddenInputRef = React.createRef();
-        this.wrapperRef = React.createRef();
         this.state = {
             students: [],
-            focusTimer: null
+            active: false,
         };
 
-        this.onClickFocusInput = this.onClickFocusInput.bind(this);
         this.fetchNightInSchoolStudent = this.fetchNightInSchoolStudent.bind(this);
         this.inputOnKeyPressHandler = this.inputOnKeyPressHandler.bind(this);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.state.focusTimer);
-        this.wrapperRef.current.removeEventListener('click', this.onClickFocusInput);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        this.hiddenInputRef.current.focus();
-    }
 
     componentDidMount() {
-        this.state.focusTimer = setInterval(
-            () => this.hiddenInputRef.current.focus(),
-            200
-        );
-        // this.hiddenInputRef.current.focus();
-        this.wrapperRef.current.addEventListener('click', this.onClickFocusInput);
-        
-        this.fetchNightInSchoolStudent();
+
+        this.fetchNightInSchoolStudent(true);
 
     }
 
-    fetchNightInSchoolStudent() {
+    fetchNightInSchoolStudent(display) {
+
+        this.setState({active: false});
+
         ajaxCall({
             action: "fetch_night_in_school_student",
             // postData
@@ -73,7 +59,7 @@ class ListingPage extends React.Component {
 
             if(uids.length == 0) {
 
-                this.setState({students : []});
+                this.setState({students : [], active: typeof display == 'undefined' ? this.state.active : display });
 
                 return;
 
@@ -95,14 +81,10 @@ class ListingPage extends React.Component {
                     if(response[key]['role_id'] == 5) students.push(Object.assign(response[key], {isApproved: approvedStudents.indexOf(response[key].uid) != -1}));
                 })
 
-                this.setState({ students: students || [] })   
+                this.setState({ students: students || [], active: typeof display == 'undefined' ? this.state.active : display })   
             })
 
         });
-    }
-
-    onClickFocusInput() {
-        this.hiddenInputRef.current.focus();
     }
 
     inputOnKeyPressHandler(ev) {
@@ -110,6 +92,8 @@ class ListingPage extends React.Component {
 
             const cardId = ev.target.value;
             ev.target.value = '';
+            
+            this.setState({});
 
             ajaxCall({
                 action: 'update_on_dup_night_in_school_student',
@@ -118,7 +102,7 @@ class ListingPage extends React.Component {
                     'state': 0,
                 }
             }).then(response => {
-                if(response >= 0) this.fetchNightInSchoolStudent();
+                if(response >= 0) this.fetchNightInSchoolStudent(true);
             })
         }
     }
@@ -129,10 +113,10 @@ class ListingPage extends React.Component {
         return (
             <PageConfig.Consumer>
                 {({ viewMode }) => (
-                    <div ref={this.wrapperRef}>
-                        <Template>
+                    <div>
+                        <Template active={this.state.active}>
                             <Paper>
-                                <HiddenInput onKeyPress={this.inputOnKeyPressHandler} ref={this.hiddenInputRef} />
+                                <HiddenInput onKeyPress={this.inputOnKeyPressHandler} />
                                 <div className={this.props.classes.gridView}>
                                     {/* {Object.keys(students).map(key => (
                                         <UserCardGrid
