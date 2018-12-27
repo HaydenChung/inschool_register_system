@@ -1,10 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import Card from '@material-ui/core/Card';
 // import CardActionArea from '@material-ui/core/CardActionArea';
 // import CardAction from '@material-ui/core/CardActions'
 
-const styles = ()=> ({
+const styles = (theme)=> ({
     'wrapper': {
         flex: '0 1 8%',
         height: '140px',
@@ -58,31 +59,50 @@ const styles = ()=> ({
     'smallText': {
         fontSize: '10px',
         fontWeight: 'bold',
+    },
+    'notApproved': {
+        backgroundColor: theme.palette.secondary.main
     }
 })
 
-const UserGrid = (props)=> {
-    const data = props.data;
-    return (
-        <Card onClick={()=> props.onClick({uid: data.uid})} 
-        className={props.viewMode != 'desktop' ? props.classes.mobileWrapper : props.classes.wrapper}
-        >
-            <div className={props.classes.colInner}>
-                <div className={props.classes.studImgWrapper}>
-                    <div className={props.classes.studentClass}>{data.class}</div>
-                    <div className={props.classes.studentClassNo}>{data['class_number']}</div>
-                    <img className={props.classes.studImage} src={data.uri} />
-                </div>
-                <div className={props.classes.studName}>
-                    <div className={props.classes.smallText}>
-                        {data['chi_name']}
-                        <br/>
-                        {data['eng_name']}
+class UserGrid extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.onLoadImageError = this.onLoadImageError.bind(this);
+    }
+
+    onLoadImageError(ev) {
+        const tmpPath = window.location.protocol + '//' + window.location.host + '/seating_plan/img/user_default.png'
+        let target = ev.target;
+        if(target.src !== tmpPath) target.src = tmpPath;
+    }
+
+    render() {
+        const props = this.props;
+        const data = props.data;
+
+        return (
+            <Card onClick={()=> props.onClick({uid: data.uid})} 
+            className={props.viewMode != 'desktop' ? props.classes.mobileWrapper : props.classes.wrapper}
+            >
+                <div className={props.classes.colInner}>
+                    <div className={props.classes.studImgWrapper}>
+                        <div className={props.classes.studentClass}>{data.class}</div>
+                        <div className={props.classes.studentClassNo}>{data['class_number']}</div>
+                        <img onError={this.onLoadImageError} className={props.classes.studImage} src={data.uri} />
+                    </div>
+                    <div className={props.classes.studName}>
+                        <div className={classNames(props.classes.smallText, !data['isApproved'] && props.classes.notApproved)}>
+                            {data['chi_name']}
+                            <br/>
+                            {data['eng_name']}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Card>
-    )
+            </Card>
+        );
+    }
 }
 
 export default withStyles(styles)(UserGrid);

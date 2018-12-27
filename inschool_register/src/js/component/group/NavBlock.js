@@ -9,9 +9,8 @@ import { withRouter } from "react-router-dom";
 const NavBlock = (props)=> (
     <Card>
         <CardActions>
-            <Button variant="contained" onClick={()=> props.history.push('/firstpage')} >First</Button>
-            <Button variant="contained" onClick={()=> props.history.push('/secondpage')} >Second</Button>
-            <Button variant="contained" onClick={()=> props.history.push('/thirdpage')} >Last</Button>
+            <Button variant="contained" onClick={()=> props.history.push('/firstpage')} >GATE</Button>
+            <Button variant="contained" onClick={()=> props.history.push('/secondpage')} >PATROL</Button>
         </CardActions>
 
     </Card>

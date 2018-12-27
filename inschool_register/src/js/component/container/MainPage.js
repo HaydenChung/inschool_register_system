@@ -56,7 +56,6 @@ class MainPage extends React.Component {
         return (
             <div style={{height: this.state.viewMode != 'table' ? 'auto' : '82vh'}}>
                 <PageConfig.Provider value={{'viewMode': this.state.viewMode}} />
-                <h5>Here are the main page.</h5>
                 <Routing />
             </div>
         )

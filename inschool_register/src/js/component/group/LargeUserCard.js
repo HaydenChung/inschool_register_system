@@ -6,6 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
 import { withStyles } from '@material-ui/core/styles';
+import classNames from "classnames";
 
 const styles = (theme)=> ({
     'cardMedia': {
@@ -37,6 +38,12 @@ const styles = (theme)=> ({
         justifyContent: 'center',
         flexDirection: 'column',
     },
+    'verifiedUser': {
+        backgroundColor: theme.palette.primary.light
+    },
+    'nonVerifiedUser': {
+        backgroundColor: theme.palette.secondary.dark
+    },
 });
 
 class LargeUserCard extends React.Component {
@@ -48,7 +55,7 @@ class LargeUserCard extends React.Component {
     }
 
     onLoadImageError(ev) {
-        const tmpPath = window.location.protocol + '//' + window.location.host + '/seating_plan/img/stud_default.jpg'
+        const tmpPath = window.location.protocol + '//' + window.location.host + '/seating_plan/img/user_default.png'
         let target = ev.target;
         if(target.src !== tmpPath) target.src = tmpPath;
     }
@@ -61,7 +68,7 @@ class LargeUserCard extends React.Component {
             <Card className={props.classes.card} >
                 {/* <CardHead></CardHead> */}
                 <CardMedia
-                    className={props.classes.cardMedia}
+                    className={classNames(props.classes.cardMedia, props.isVerify && props.classes.verifiedUser, (props.isVerify === false && props.classes.nonVerifiedUser))}
                     title="Student Photo"
                 >
                     <img onError={this.onLoadImageError} src={props.image} className={props.classes.image}></img>

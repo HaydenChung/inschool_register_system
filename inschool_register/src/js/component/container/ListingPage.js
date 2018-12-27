@@ -25,7 +25,7 @@ class ListingPage extends React.Component {
         this.hiddenInputRef = React.createRef();
         this.wrapperRef = React.createRef();
         this.state = {
-            students: {},
+            students: [],
             focusTimer: null
         };
 
@@ -61,13 +61,19 @@ class ListingPage extends React.Component {
             // postData
         }).then(response => {
 
-            response = response || [];
+            const inschoolState = response || [];
+            
 
-            const uids = response.map(student => student.uid );
+            let uids = [];
+            let approvedStudents = [];
+            inschoolState.forEach(student => {
+                uids.push(student.uid);
+                if(student['is_approved'] == 1) approvedStudents.push(student.uid);
+            });
 
             if(uids.length == 0) {
 
-                this.setState({studetns : []});
+                this.setState({students : []});
 
                 return;
 
@@ -82,7 +88,15 @@ class ListingPage extends React.Component {
             ajaxCall({
                 action: "fetch_user_static",
                 postData
-            }).then(response => this.setState({ students: response || [] }))
+            }).then(response => {
+
+                let students = [];
+                Object.keys(response).forEach(key => {
+                    if(response[key]['role_id'] == 5) students.push(Object.assign(response[key], {isApproved: approvedStudents.indexOf(response[key].uid) != -1}));
+                })
+
+                this.setState({ students: students || [] })   
+            })
 
         });
     }
@@ -104,13 +118,14 @@ class ListingPage extends React.Component {
                     'state': 0,
                 }
             }).then(response => {
-                if(response) this.fetchNightInSchoolStudent();
+                if(response >= 0) this.fetchNightInSchoolStudent();
             })
         }
     }
 
     render() {
-        const students = this.state.students || {};
+        const students = this.state.students || [];
+
         return (
             <PageConfig.Consumer>
                 {({ viewMode }) => (
@@ -119,10 +134,17 @@ class ListingPage extends React.Component {
                             <Paper>
                                 <HiddenInput onKeyPress={this.inputOnKeyPressHandler} ref={this.hiddenInputRef} />
                                 <div className={this.props.classes.gridView}>
-                                    {Object.keys(students).map(key => (
+                                    {/* {Object.keys(students).map(key => (
                                         <UserCardGrid
                                             key={"elm_key" + key}
                                             data={students[key]}
+                                            mode={viewMode}
+                                        />
+                                    ))} */}
+                                    {students.map((student,index) => (
+                                        <UserCardGrid 
+                                            key={"elm_key" + index}
+                                            data={student}
                                             mode={viewMode}
                                         />
                                     ))}
