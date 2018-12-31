@@ -220,33 +220,7 @@ class NewTable extends React.Component {
         // return true;
     }
 
-    // componentDidMount() {
-    //     // this.state.pagination = this.props.pagination == true ?
-
-    //     // <TableFooter>
-    //     //     <TableRow>
-    //     //         <TablePagination
-    //     //         colSpan={3}
-    //     //         count={rows.length}
-    //     //         rowsPerPage={rowsPerPage}
-    //     //         page={page}
-    //     //         onChangePage={this.handleChangePage}
-    //     //         onChangeRowsPerPage={this.handleChangeRowsPerPage}
-    //     //         ActionsComponent={TablePaginationActionsWrapped}
-    //     //         />
-    //     //     </TableRow>
-    //     // </TableFooter>
-
-    //     // : null;
-    // }
-
     render() {
-        // console.log(
-        //     "rendered table",
-        //     this.props.data,
-        //     this.props.checkedId,
-        //     this.props.reset
-        // );
 
         let data = this.props.data;
 
@@ -275,13 +249,6 @@ class NewTable extends React.Component {
         }else {
             headers = this.props.headerNames;
         }
-
-        // const headers =
-        //     typeof this.props.headerNames == "undefined"
-        //         ? Object.keys(data[0] || []).filter(
-        //               key => this.props.hiddenField.indexOf(key) == -1
-        //           )
-        //         : this.props.headerNames;
 
         const headerCells = headers.map((name, index) => {
             const ordering = index === this.state.orderByIndex;

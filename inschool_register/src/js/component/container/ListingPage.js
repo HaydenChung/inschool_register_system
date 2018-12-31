@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Template from "../page/Template";
 import UserCardGrid from "../item/UserCardGrid";
 import HiddenInput from "../item/HiddenInput";
-import { PageConfig } from "../../context";
+import { PageConfig, withUiSound } from "../../context";
 
 import { ajaxCall } from "../../utils";
 
@@ -24,45 +24,55 @@ class ListingPage extends React.Component {
 
         this.state = {
             students: [],
-            active: false,
+            active: false
         };
+
+        this.reloadTimer = 0;
 
         this.fetchNightInSchoolStudent = this.fetchNightInSchoolStudent.bind(this);
         this.inputOnKeyPressHandler = this.inputOnKeyPressHandler.bind(this);
     }
 
-
     componentDidMount() {
-
         this.fetchNightInSchoolStudent(true);
 
+        this.reloadTimer = setInterval(
+            this.fetchNightInSchoolStudent.bind(this, true),
+            30000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.reloadTimer);
     }
 
     fetchNightInSchoolStudent(display) {
-
-        this.setState({active: false});
+        this.setState({ active: false });
 
         ajaxCall({
-            action: "fetch_night_in_school_student",
+            action: "fetch_night_in_school_student"
             // postData
         }).then(response => {
-
             const inschoolState = response || [];
-            
 
             let uids = [];
             let approvedStudents = [];
             inschoolState.forEach(student => {
                 uids.push(student.uid);
-                if(student['is_approved'] == 1) approvedStudents.push(student.uid);
+                if (student["is_approved"] == 1)
+                    approvedStudents.push(student.uid);
             });
 
-            if(uids.length == 0) {
-
-                this.setState({students : [], active: typeof display == 'undefined' ? this.state.active : display });
+            if (uids.length == 0) {
+                this.setState({
+                    students: [],
+                    active:
+                        typeof display == "undefined"
+                            ? this.state.active
+                            : display
+                });
 
                 return;
-
             }
 
             let postData = {
@@ -75,35 +85,51 @@ class ListingPage extends React.Component {
                 action: "fetch_user_static",
                 postData
             }).then(response => {
-
                 let students = [];
                 Object.keys(response).forEach(key => {
-                    if(response[key]['role_id'] == 5) students.push(Object.assign(response[key], {isApproved: approvedStudents.indexOf(response[key].uid) != -1}));
-                })
+                    if (response[key]["role_id"] == 5)
+                        students.push(
+                            Object.assign(response[key], {
+                                isApproved:
+                                    approvedStudents.indexOf(
+                                        response[key].uid
+                                    ) != -1
+                            })
+                        );
+                });
 
-                this.setState({ students: students || [], active: typeof display == 'undefined' ? this.state.active : display })   
-            })
-
+                this.setState({
+                    students: students || [],
+                    active:
+                        typeof display == "undefined"
+                            ? this.state.active
+                            : display
+                });
+            });
         });
     }
 
+    //this method was build to update user leave school status, have been replan to observe user gate out record from attendance system.
     inputOnKeyPressHandler(ev) {
-        if(ev.keyCode === 13 || ev.key === 'Enter') {
-
+        if (ev.keyCode === 13 || ev.key === "Enter") {
             const cardId = ev.target.value;
-            ev.target.value = '';
-            
+            ev.target.value = "";
+
             this.setState({});
 
             ajaxCall({
-                action: 'update_on_dup_night_in_school_student',
+                action: "update_on_dup_night_in_school_student",
                 postData: {
-                    'card_number': cardId,
-                    'state': 0,
+                    card_number: cardId,
+                    state: 0
                 }
             }).then(response => {
-                if(response >= 0) this.fetchNightInSchoolStudent(true);
-            })
+                if (response >= 0) {
+                    this.fetchNightInSchoolStudent(true);
+                    console.log("login done");
+                    this.props.uiSound.acceptSound.play();
+                }
+            });
         }
     }
 
@@ -116,7 +142,7 @@ class ListingPage extends React.Component {
                     <div>
                         <Template active={this.state.active}>
                             <Paper>
-                                <HiddenInput onKeyPress={this.inputOnKeyPressHandler} />
+                                {/* <HiddenInput onKeyPress={this.inputOnKeyPressHandler} /> */}
                                 <div className={this.props.classes.gridView}>
                                     {/* {Object.keys(students).map(key => (
                                         <UserCardGrid
@@ -125,8 +151,8 @@ class ListingPage extends React.Component {
                                             mode={viewMode}
                                         />
                                     ))} */}
-                                    {students.map((student,index) => (
-                                        <UserCardGrid 
+                                    {students.map((student, index) => (
+                                        <UserCardGrid
                                             key={"elm_key" + index}
                                             data={student}
                                             mode={viewMode}
@@ -142,4 +168,4 @@ class ListingPage extends React.Component {
     }
 }
 
-export default withStyles(styles)(ListingPage);
+export default withStyles(styles)(withUiSound(ListingPage));
