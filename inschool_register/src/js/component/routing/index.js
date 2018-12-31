@@ -14,43 +14,25 @@ class Routing extends React.Component {
         return (
             <MemoryRouter>
                 <div>
-                    <Route
-                        exact
-                        path="/"
-                        render={props=>
-                            (<ListingPage />)
-
-                        }
-                    />
+                    <Route exact path="/" render={props => <ListingPage />} />
                     <Route
                         exact
                         path="/firstpage"
-                        render={props=> 
-                            (<ListingPage />)
-
-                        }
+                        render={props => <ListingPage />}
                     />
                     <Route
                         exact
                         path="/secondpage"
-                        render={props=> 
-                            (<RegisterPage />)
-
-                        }
+                        render={props => <RegisterPage />}
                     />
                     <Route
                         exact
                         path="/thirdpage"
-                        render={props=> 
-                            (<UnRegisterPage />)
-
-                        }
+                        render={props => <UnRegisterPage />}
                     />
-
-                    
                 </div>
             </MemoryRouter>
-        )
+        );
     }
 }
 

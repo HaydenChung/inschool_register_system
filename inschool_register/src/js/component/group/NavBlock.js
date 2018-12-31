@@ -1,20 +1,56 @@
-import React from 'react';
-import Card from "@material-ui/core/Card";
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
+import React from "react";
+import Tab from "@material-ui/core/tab";
+import Tabs from "@material-ui/core/tabs";
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles";
+
+import Gate from "mdi-material-ui/Gate";
+import ShieldAccount from "mdi-material-ui/ShieldAccount";
 
 import { withRouter } from "react-router-dom";
 
+const styles = theme => ({
+    wrapper: {
+        flex: 1
+    }
+});
 
-const NavBlock = (props)=> (
-    <Card>
-        <CardActions>
-            <Button variant="contained" onClick={()=> props.history.push('/firstpage')} >First</Button>
-            <Button variant="contained" onClick={()=> props.history.push('/secondpage')} >Second</Button>
-            <Button variant="contained" onClick={()=> props.history.push('/thirdpage')} >Last</Button>
-        </CardActions>
+class NavBlock extends React.Component {
+    constructor(props) {
+        super(props);
 
-    </Card>
-);
+        this.state = {
+            tabIndex: 0
+        };
 
-export default withRouter(NavBlock);
+        this.paths = {
+            0: "/firstpage",
+            1: "/secondpage"
+        };
+
+        this.onTabChangeHandler = this.onTabChangeHandler.bind(this);
+    }
+
+    onTabChangeHandler(ev, tabIndex) {
+        setTimeout(() => this.props.history.push(this.paths[tabIndex]), 1);
+    }
+
+    render() {
+        return (
+            <Paper className={this.props.classes.wrapper}>
+                <Tabs
+                    value={false}
+                    onChange={this.onTabChangeHandler}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    centered
+                >
+                    <Tab icon={<Gate />} label="GATES" />
+                    <Tab icon={<ShieldAccount />} label="PATROL" />
+                </Tabs>
+            </Paper>
+        );
+    }
+}
+
+export default withStyles(styles)(withRouter(NavBlock));

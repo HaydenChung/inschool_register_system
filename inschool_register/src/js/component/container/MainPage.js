@@ -4,18 +4,16 @@ import Routing from "../routing";
 import { PageConfig } from "../../context";
 
 class MainPage extends React.Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
-            viewChangeTimer: null,
+            viewChangeTimer: null
         };
 
         this.onResizeHandler = this.onResizeHandler.bind(this);
     }
 
-    
     onResizeHandler() {
         clearTimeout(this.state.viewChangeTimer);
 
@@ -54,14 +52,19 @@ class MainPage extends React.Component {
 
     render() {
         return (
-            <div style={{height: this.state.viewMode != 'table' ? 'auto' : '82vh'}}>
-                <PageConfig.Provider value={{'viewMode': this.state.viewMode}} />
-                <h5>Here are the main page.</h5>
-                <Routing />
+            <div
+                style={{
+                    height: this.state.viewMode != "table" ? "auto" : "82vh"
+                }}
+            >
+                <PageConfig.Provider
+                    value={{ viewMode: this.state.viewMode }}
+                >
+                    <Routing />
+                </PageConfig.Provider>
             </div>
-        )
+        );
     }
-
 }
 
 export default MainPage;

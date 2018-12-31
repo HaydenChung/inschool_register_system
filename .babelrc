@@ -1,0 +1,17 @@
+{
+    "presets": [["@babel/env",{
+        "targets": {
+            "browsers": [
+                "safari >= 8",
+                "ie >= 11",
+                "ios >= 8",
+                "android >= 4"
+            ]
+        }
+    }], "@babel/react"],
+    "plugins": [
+        "transform-es2015-destructuring",
+        "transform-es2015-parameters",
+        "transform-object-rest-spread"
+    ]
+}

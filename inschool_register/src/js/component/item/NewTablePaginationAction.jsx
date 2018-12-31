@@ -29,15 +29,15 @@ class TablePaginationActions extends React.Component {
 
     handleFirstPageButtonClick(event) {
         this.props.onChangePage(event, 0);
-    };
+    }
 
     handleBackButtonClick(event) {
         this.props.onChangePage(event, this.props.page - 1);
-    };
+    }
 
     handleNextButtonClick(event) {
         this.props.onChangePage(event, this.props.page + 1);
-    };
+    }
 
     handleLastPageButtonClick(event) {
         this.props.onChangePage(
@@ -47,7 +47,7 @@ class TablePaginationActions extends React.Component {
                 Math.ceil(this.props.count / this.props.rowsPerPage) - 1
             )
         );
-    };
+    }
 
     render() {
         const { classes, count, page, rowsPerPage, theme } = this.props;
