@@ -10,17 +10,17 @@ const styles = theme => ({
         flex: "0 1 8%",
         height: "140px",
         margin: "1%",
-        "&:hover": {
-            cursor: "pointer"
-        }
+        // "&:hover": {
+        //     cursor: "pointer"
+        // }
     },
     mobileWrapper: {
         flex: "0 1 12%",
         height: "140px",
         margin: "1%",
-        "&:hover": {
-            cursor: "pointer"
-        }
+        // "&:hover": {
+        //     cursor: "pointer"
+        // }
     },
     colInner: {
         // border: '4px solid #e0e0e0',
@@ -90,7 +90,7 @@ class UserGrid extends React.Component {
             <Card
                 onClick={() => props.onClick({ uid: data.uid })}
                 className={
-                    props.viewMode != "desktop"
+                    props.mode != "desktop"
                         ? props.classes.mobileWrapper
                         : props.classes.wrapper
                 }
