@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
     "dev-build": "webpack --mode development",
-    "start-dev": "webpack-dev-server --content-base ./ --inline --mode development --open"
+    "start-dev": "webpack-dev-server --content-base ./ --inline --mode development --open",
+    "dev-php-build": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.php_development"
   },
   "author": "Hayden,vega",
   "license": "ISC",

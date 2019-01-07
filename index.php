@@ -29,6 +29,7 @@
 
 <?php include(Config::get('root_document').'/includes/common/includeJS.php'); ?>
 
+<!-- <script src="http://localhost:8080/inschool_register/assets/main.js"></script> -->
 <script src="/inschool_register/dist/main.js"></script>
 
 <script>
