@@ -5,6 +5,10 @@ import Template from "../page/Template";
 import UserCardGrid from "../item/UserCardGrid";
 import HiddenInput from "../item/HiddenInput";
 import { PageConfig, withUiSound } from "../../context";
+import LargeUserCard from "../group/LargeUserCard";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Slide from '@material-ui/core/Slide';
 
 import { ajaxCall } from "../../utils";
 
@@ -15,6 +19,12 @@ const styles = () => ({
         alignContent: "flex-start",
         alignItem: "flex-start",
         justifyContent: "flex-start"
+    },
+    popUpCard: {
+        position: "absolute",
+        top: "20%",
+        left: "50%",
+        transform: "translate(-50%,0)"
     }
 });
 
@@ -24,13 +34,20 @@ class ListingPage extends React.Component {
 
         this.state = {
             students: [],
-            active: false
+            active: false,
+            dialogOpen: false,
+            selectedStudent: {},
         };
 
         this.reloadTimer = 0;
 
-        this.fetchNightInSchoolStudent = this.fetchNightInSchoolStudent.bind(this);
+        this.fetchNightInSchoolStudent = this.fetchNightInSchoolStudent.bind(
+            this
+        );
         this.inputOnKeyPressHandler = this.inputOnKeyPressHandler.bind(this);
+        this.userGridOnClickHandler = this.userGridOnClickHandler.bind(this);
+        this.handleDialogClose = this.handleDialogClose.bind(this);
+        this.popUpTransition = this.popUpTransition.bind(this);
     }
 
     componentDidMount() {
@@ -126,15 +143,37 @@ class ListingPage extends React.Component {
             }).then(response => {
                 if (response >= 0) {
                     this.fetchNightInSchoolStudent(true);
-                    console.log("login done");
                     this.props.uiSound.acceptSound.play();
                 }
             });
         }
     }
 
+    userGridOnClickHandler({ uid }) {
+        let result = [];
+
+        this.state.students.some(student => {
+            if (student.uid == uid) {
+                result = student;
+                return;
+            }
+        });
+
+        this.setState({selectedStudent: result, dialogOpen: true});
+    }
+
+    handleDialogClose() {
+        this.setState({selectedStudent: {}, dialogOpen: false})
+    }
+
+
+    popUpTransition(props) {
+        return <Slide direction="up" {...props} />
+    }
+
     render() {
         const students = this.state.students || [];
+        const selectedStudent = this.state.selectedStudent || {};
 
         return (
             <PageConfig.Consumer>
@@ -144,15 +183,11 @@ class ListingPage extends React.Component {
                             <Paper>
                                 {/* <HiddenInput onKeyPress={this.inputOnKeyPressHandler} /> */}
                                 <div className={this.props.classes.gridView}>
-                                    {/* {Object.keys(students).map(key => (
-                                        <UserCardGrid
-                                            key={"elm_key" + key}
-                                            data={students[key]}
-                                            mode={viewMode}
-                                        />
-                                    ))} */}
                                     {students.map((student, index) => (
                                         <UserCardGrid
+                                            onClick={
+                                                this.userGridOnClickHandler
+                                            }
                                             key={"elm_key" + index}
                                             data={student}
                                             mode={viewMode}
@@ -161,6 +196,36 @@ class ListingPage extends React.Component {
                                 </div>
                             </Paper>
                         </Template>
+                            <div className={this.props.classes.popUpCard}>
+                                <Dialog
+                                    open={this.state.dialogOpen}
+                                    TransitionComponent={this.popUpTransition}
+                                    keepMounted
+                                    onClose={this.handleDialogClose}
+                                    aria-labelledby="student-card-pop-up"
+                                >
+                                    <LargeUserCard
+                                        chi_name={
+                                            selectedStudent["chi_name"]
+                                        }
+                                        eng_name={
+                                            selectedStudent["eng_name"]
+                                        }
+                                        class={
+                                            selectedStudent["class"]
+                                        }
+                                        uid={
+                                            selectedStudent["uid"]
+                                        }
+                                        image={
+                                            selectedStudent['uri']
+                                        }
+                                        class_number={
+                                            selectedStudent['class_number']
+                                        }
+                                    />
+                                </Dialog>
+                            </div>
                     </div>
                 )}
             </PageConfig.Consumer>
